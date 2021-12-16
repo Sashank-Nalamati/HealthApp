@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
     constructor(private api: APIService, private router: Router) {}
 
     ngOnInit(): void {
+        //set Doctor/Patient view based on usertype.
         Auth.currentAuthenticatedUser().then(async (user) => {
             this.initials = user.attributes.given_name.substring(0,1) + user.attributes.family_name.substring(0,1)
             this.userId = user.attributes.sub

@@ -69,6 +69,7 @@ export class ScheduleComponent implements OnInit {
         console.log(this.route.snapshot.paramMap)
         this.doctorId = this.route.snapshot.paramMap.get('id') || ''
         console.log(this.doctorId)
+        //fetch events based on Id
         await this.fetchEvents()
         this.doctorEmail = (await this.api.GetUser(this.doctorId!)).email!
         Auth.currentAuthenticatedUser().then((user) => {
@@ -195,6 +196,8 @@ export class ScheduleComponent implements OnInit {
                 this.newEventTimeSlot! +
                 this.clickedDate?.toString().substring(21)!
         )
+
+        //Add the current user and doctor being viewed to the call request.
         const user = await Auth.currentAuthenticatedUser()
         const userId = user.attributes.sub
         console.log(userId)
@@ -208,6 +211,7 @@ export class ScheduleComponent implements OnInit {
             title: `Appointment with ${user.attributes.given_name} ${user.attributes.family_name}`
         }
 
+        //Call lambda which creates the call and sends out email.
         this.http
             .post(
                 'https://jkt8mfvus4.execute-api.us-east-1.amazonaws.com/dev/requestCall',

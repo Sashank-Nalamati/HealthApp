@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
     async ngOnInit() {
         const today = new Date()
 
+        //Get calls for today and call requests.
+
         Auth.currentAuthenticatedUser().then(async (user) => {
             const dbUser = await this.api.GetUser(user.attributes.sub)
             this.unApprovedCalls = dbUser.videoCalls?.items
@@ -66,7 +68,7 @@ export class HomeComponent implements OnInit {
                         today < endOfDay(new Date(call.videoCall.time!))
                 )
                 .map((call) => call.videoCall)
-                
+
             this.unApprovedCalls = (
                 await this.api.GetUser(user.attributes.sub)
             ).videoCalls?.items
@@ -75,10 +77,12 @@ export class HomeComponent implements OnInit {
         })
     }
 
+    //Set call which is being rescheduled.
     startReschedule(call) {
         this.rescheduleCall = call
     }
 
+    //Change the time of the call as per the selection and change status to approved.
     async rescheduleEvent() {
         console.log(this.rescheduleCall, this.newEventTimeSlot)
         const oldTime = new Date(this.rescheduleCall.time)

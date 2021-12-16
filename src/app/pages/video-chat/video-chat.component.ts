@@ -32,6 +32,8 @@ export class VideoChatComponent implements OnInit, OnDestroy {
         this.myVid = document.getElementById('myStream')
         this.otherVid = document.getElementById('otherStream')
         this.callId = this.route.snapshot.params.id
+
+        //Load video element with user feed.
         try {
             from(Auth.currentAuthenticatedUser()).subscribe(async (user) => {
                 this.userId = user.attributes.sub
@@ -65,7 +67,9 @@ export class VideoChatComponent implements OnInit, OnDestroy {
 
         this.myPeer.on('call', async (call) => {
             console.log('Call Recieved', call)
+            //answer call with stream
             await call.answer(this.myStream)
+            //on recieving the stream from a call, present it on your screen.
             call.on('stream', (remoteStream) => {
                 console.log('Stream received', remoteStream)
                 if (!this.activeIncomingStreamIds.find((id) => id === remoteStream.id)) {
@@ -89,6 +93,7 @@ export class VideoChatComponent implements OnInit, OnDestroy {
             })
         })
 
+        //call all the other attendees of the call.
         from(this.api.GetVideoCall(this.callId!)).subscribe(async (call) => {
             console.log(call.attendeeIds)
             call.attendeeIds

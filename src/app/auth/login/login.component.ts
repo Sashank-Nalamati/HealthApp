@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
                 console.log(user)
                 const existingUser = await this.api.GetUser(user.attributes.sub)
                 if (!existingUser) {
+                    //On first login, add the verified user to dyanamoDB.
                     const newUser = await this.api.CreateUser({
                         id: user.attributes.sub,
                         firstName: user.attributes.given_name,

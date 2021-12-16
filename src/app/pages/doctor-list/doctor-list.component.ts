@@ -16,6 +16,7 @@ export class DoctorListComponent implements OnInit {
     ) {}
 
     async ngOnInit() {
+        //Load all doctors
         Auth.currentAuthenticatedUser().then(async (user) => {
             const dbUser = await this.api.GetUser(user.attributes.sub!)
             console.log(dbUser)
