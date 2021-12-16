@@ -9,12 +9,24 @@ import { APIService, User, UserType } from 'src/app/API.service'
     styleUrls: ['./doctor-list.component.css']
 })
 export class DoctorListComponent implements OnInit {
-    doctors: User[] = []
-    constructor(private api: APIService) {}
+    doctors: User[] = [];
+    fetchUserType: UserType = UserType.doctor;
+    uerType = false;
+    constructor(private api: APIService,
+    ) {}
 
     async ngOnInit() {
-        this.doctors = (await this.api.ListUsers({ type: { eq: UserType.doctor } }))
+        Auth.currentAuthenticatedUser().then(async (user) => {
+            const dbUser = await this.api.GetUser(user.attributes.sub!)
+            console.log(dbUser)
+            if (dbUser.type === UserType.doctor) {
+                this.fetchUserType = UserType.patient
+                this.uerType = true;
+            }
+            this.doctors = (await this.api.ListUsers({ type: { eq: this.fetchUserType} }))
             .items as User[]
         console.log(this.doctors)
+        })
+
     }
 }

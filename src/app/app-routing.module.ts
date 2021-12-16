@@ -8,9 +8,13 @@ import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component'
 import { DoctorListComponent } from './pages/doctor-list/doctor-list.component'
 import { HomeComponent } from './pages/home/home.component'
+import { MedicalRecordsComponent } from './pages/medical-records/medical-records.component'
+import { RecordsListComponent } from './pages/medical-records/record-list/record-list.component'
+import { RecordsComponent } from './pages/medical-records/record/record.component'
 import { ScheduleComponent } from './pages/schedule/schedule.component'
 import { VideoChatComponent } from './pages/video-chat/video-chat.component'
 
+// App routing map
 const routes: Routes = [
     {
         path: '',
@@ -32,7 +36,13 @@ const routes: Routes = [
             {
               path: 'doctors',
               component: DoctorListComponent
-            }
+            },
+            {
+                path: 'records/:id', component: MedicalRecordsComponent, children: [
+                  { path: 'upload/:id', component: RecordsComponent},
+                  { path: 'list/:id', component: RecordsListComponent}
+                ]
+              }
         ]
     },
     {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators,ReactiveFormsModule} from '@angular/forms'
 import { Router } from '@angular/router'
 import Auth from '@aws-amplify/auth'
 import { from } from 'rxjs'
@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
         password: new FormControl('')
     })
 
+    loginError = false;
+
     get username() {
         return this.loginForm.get('username')
     }
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {}
 
+    // login founction
     onLogin(username: string, password: string) {
         from(this.auth.signIn(username, password)).subscribe(
             async (user) => {
@@ -59,6 +62,9 @@ export class LoginComponent implements OnInit {
                     this.router.navigate(['/confirmUser'], {
                         queryParams: { username: username }
                     })
+                }
+                else{
+                    this.loginError = true;
                 }
             }
         )
