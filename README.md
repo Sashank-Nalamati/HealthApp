@@ -3,7 +3,8 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.4.
 
 ## How to run the code
-First, we need several packages: amplify, firebase and node_modules. You can intstall all these with `npm install`, `npm i emplify` and `npm i firebase`.
+First, paste the aws_exports file into the root folder of this project. After this run "npm i" to install all dependencies. Finally run "ng serve" to run the application.
+In case of failure, try to delete the package_lock.json file and run the above two commands again.
 
 ## Development server
 
